@@ -493,12 +493,18 @@ sub startcode()
 			addcode ("")
 
 'add head
+
+
 			tt1=""
 			addhead ("main:")
 			addhead ("	push	{fp, lr}")
 			addhead ("	add	fp, sp, #4")
 			addhead ("	sub	sp, sp, #16")
 			addhead ("	str	r3,var_sys_call")
+			addhead ("	mov 	r1,#1")
+			addhead ("	mov 	r0,#0")
+			addhead ("	bne	mains")
+			addcode (!"	var_sys_messages: .asciz \"ARM build in index developer tools.... \\0\"")
 			addhead ("mains:")
 			addhead ("		@head")
 			addhead ("")
