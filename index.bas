@@ -79,7 +79,7 @@
 main
 
 
-
+'----------------------------------------------------------------------------------
     Sub main()
 		open command$ for input as #4
 		ts=0
@@ -101,6 +101,7 @@ main
 				if length>-1 then 
 					par1=lcase(trim(separete(0)))
 
+'----------------------------------------------------------------------------------
 'key print,var
 					if par1=keywords(0) then
 						errorssi=0
@@ -131,6 +132,7 @@ main
 						end if 
 						goto allkey
 					end if 
+'----------------------------------------------------------------------------------
 'key set ,constant,text
 					if par1=keywords(1) then 
 						errorssi=1
@@ -139,7 +141,7 @@ main
 							tc=ucase(trim(separete(1)))
 							if findvar(tc)=-1 and tc<>"" and (asc(tc)>(asc("A")-1)) and (asc(tc)<(asc("Z")+1)) then 
 								addvar(tc,0,iii)							
-								addbody("L"+trim(str(iii+9000))+!": .asciz \""+separete(2)+!"\\r\\n\\0\"")
+								addbody("L"+trim(str(iii+9000))+!": .asciz \""+separete(2)+!" \\n\\0\"")
 								addbody("XL"+trim(str(iii+9000))+": .word "+"L"+trim(str(iii+9000)))
 							else
 									iii=1+iii
@@ -150,6 +152,7 @@ main
 						end if
 						goto allkey
 					end if
+'----------------------------------------------------------------------------------
 'key no line
 					if par1=keywords(2) or par1="	" or par1="		" then 
 						errorssi=2
@@ -159,6 +162,7 @@ main
 						end if
 						goto allkey
 					end if
+'----------------------------------------------------------------------------------
 'key echo,text
 					if par1=keywords(3) then
 						errorssi=3
@@ -185,7 +189,7 @@ main
 						goto allkey
 					end if 
 
-
+'----------------------------------------------------------------------------------
 'key wait,var to put key code
 					if par1=keywords(4) then
 						errorssi=4
@@ -223,9 +227,98 @@ main
 						goto allkey
 					end if 
 
+'----------------------------------------------------------------------------------
+'key integer ,var,number value
+					if par1=keywords(5) then 
+						errorssi=5
+
+						if par(5)=length then
+							tc=ucase(trim(separete(1)))
+							if findvar(tc)=-1 and tc<>"" and (asc(tc)>(asc("A")-1)) and (asc(tc)<(asc("Z")+1)) then 
+								addvar(tc,6,iii)
+								n=val(trim(separete(2)))
+								addbody("L"+trim(str(iii+9000))+": .word "+str(n))
+								addbody("XL"+trim(str(iii+9000))+": .word L"+trim(str(iii+9000)))
+
+							else
+									iii=1+iii
+								goto errorhandler
+							end if 
+							errorssi=-1
+							errorss=0
+						end if
+						goto allkey
+					end if
+
+
+'----------------------------------------------------------------------------------
+'key let,var,value number
+					if par1=keywords(6) then
+						errorssi=6
+						if par(6)=length then
+
+							tc=ucase(trim(separete(1)))
+
+							bbb=findvar(tc)
+							if bbb<>-1 and tc<>"" then
+
+
+								if varstype(bbb)=6 then	 
+
+									n=val(trim(separete(2)))
+									addtail("	mov r0,#0x"+hex(n))
+									addtail("	str r0,L"+(trim(str(line11(bbb)+9000))))
+									errorssi=-1
+									errorss=0
+
+								else
+
+									if varstype(bbb)=12 then	 
+										fn=val(trim(separete(2)))
+										fn=fn*100
+										fi=fn
+										addtail("	mov r0,#0x"+hex(fi))
+										addtail("	str r0,L"+(trim(str(line11(bbb)+9000))))
+										errorssi=-1
+										errorss=0
+
+									else
+
+										if varstype(bbb)<5 then
+											addvar(tc,0,iii)
+											addbody(!"L"+trim(str(iii+9000))+!": .ascii \""+separete(2)+!"\\n\\0\"")
+											addbody(!"XL"+trim(str(iii+9000))+!": .word L"+trim(str(iii+9000)))
+											addtail("	ldr 	r1,XL"+(trim(str(line11(bbb)+9000))))
+											addtail("	ldr 	r2,XL"+(trim(str(iii+9000))))
+											addtail("	mov 	r0,#34")
+											addtail("	ldr 	r4,var_sys_call")
+											addtail("	blx	r4")
+
+											errorssi=-1
+											errorss=0
+										else
+
+
+											iii=1+iii
+										
+											goto errorhandler
+										end if
+									end if
+								end if
+							end if
+						end if 
+						goto allkey
+					end if 
 
 
 
+
+
+'----------------------------------------------------------------------------------
+
+'----------------------------------------------------------------------------------
+
+'----------------------------------------------------------------------------------
 
 '----------------------------------------------------------------------------------
 
