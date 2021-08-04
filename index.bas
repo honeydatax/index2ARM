@@ -186,11 +186,48 @@ main
 					end if 
 
 
+'key wait,var to put key code
+					if par1=keywords(4) then
+						errorssi=4
+						if par(4)=length then
+
+							tc=ucase(trim(separete(1)))
+
+							bbb=findvar(tc)
+							if bbb<>-1 and tc<>"" then
+
+
+								if varstype(bbb)<10 then	 
+
+									addtail("	JMPS"+(trim(str(line11(bbb)+9000)))+":")
+									addtail("	mov r0,#18")
+									addtail("	ldr r4,var_sys_call")
+									addtail("	blx	r4")
+									addtail("	mov 	r1,#0")
+									addtail("	cmp	r1,r0")
+									addtail("	bne	JMPSS"+(trim(str(line11(bbb)+9000))))
+									addtail("	b	JMPS"+(trim(str(line11(bbb)+9000))))
+									addtail("	JMPSS"+(trim(str(line11(bbb)+9000)))+":")
+									addtail("	str r0,L"+(trim(str(line11(bbb)+9000))))
+
+							errorssi=-1
+							errorss=0
+
+								 
+								else
+									iii=1+iii
+									goto errorhandler
+								end if
+							end if
+						end if 
+						goto allkey
+					end if 
 
 
 
 
 
+'----------------------------------------------------------------------------------
 
 'line count
 					allkey:
