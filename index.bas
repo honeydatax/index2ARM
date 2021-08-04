@@ -266,7 +266,9 @@ main
 								if varstype(bbb)=6 then	 
 
 									n=val(trim(separete(2)))
-									addtail("	mov r0,#0x"+hex(n))
+									addbody("kL"+trim(str(iii+9000))+": .word "+trim(str(n)))
+									addbody("XKL"+trim(str(iii+9000))+": .word L"+trim(str(iii+9000)))
+									addtail("	ldr r0,kL"+trim(str(iii+9000)))
 									addtail("	str r0,L"+(trim(str(line11(bbb)+9000))))
 									errorssi=-1
 									errorss=0
@@ -277,8 +279,12 @@ main
 										fn=val(trim(separete(2)))
 										fn=fn*100
 										fi=fn
-										addtail("	mov r0,#0x"+hex(fi))
+										addbody("kL"+trim(str(iii+9000))+": .word "+trim(str(fi)))
+										addbody("XKL"+trim(str(iii+9000))+": .word L"+trim(str(iii+9000)))
+										addtail("	ldr r0,kL"+trim(str(iii+9000)))
 										addtail("	str r0,L"+(trim(str(line11(bbb)+9000))))
+
+
 										errorssi=-1
 										errorss=0
 
@@ -626,6 +632,7 @@ sub startcode()
 
 
 			tt1=""
+			addhead ("	.align	2")
 			addhead ("main:")
 			addhead ("	push	{fp, lr}")
 			addhead ("	add	fp, sp, #4")
