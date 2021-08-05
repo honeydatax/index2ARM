@@ -1,0 +1,5 @@
+integer,a,0
+set,z,  
+let,a,8481
+print,a
+
