@@ -373,6 +373,66 @@ main
 
 
 '----------------------------------------------------------------------------------
+'key sub,var3,var1,var2
+					if par1=keywords(8) then
+						errorssi=8
+						if par(8)=length then
+
+							tc=ucase(trim(separete(1)))
+							tc1=ucase(trim(separete(2)))
+							tc2=ucase(trim(separete(3)))
+
+							bbb=findvar(tc)
+							bbb1=findvar(tc1)
+							bbb2=findvar(tc2)
+							if bbb<>-1 and tc<>"" and bbb1<>-1 and tc1<>"" and bbb2<>-1 and tc2<>"" then
+
+
+								if varstype(bbb)=6 and varstype(bbb1)=6 and varstype(bbb2)=6 then	 
+
+									addtail("	ldr r1,L"+(trim(str(line11(bbb1)+9000))))
+									addtail("	ldr r2,L"+(trim(str(line11(bbb2)+9000))))
+									addtail("	mov r0,#22")
+									addtail("	ldr r4,var_sys_call")
+									addtail("	blx	r4")
+									addtail("	str r0,L"+(trim(str(line11(bbb)+9000))))
+								 	errorssi=-1
+								errorss=0
+
+								else
+
+
+									if varstype(bbb)=12 and varstype(bbb1)=12 and varstype(bbb2)=12 then
+
+										addtail("	ldr r1,L"+(trim(str(line11(bbb1)+9000))))
+										addtail("	ldr r2,L"+(trim(str(line11(bbb2)+9000))))
+										addtail("	mov r0,#22")
+										addtail("	ldr r4,var_sys_call")
+										addtail("	blx	r4")
+										addtail("	str r0,L"+(trim(str(line11(bbb)+9000))))
+										errorssi=-1
+										errorss=0
+
+									else								 
+
+									iii=1+iii
+									goto errorhandler
+									end if								
+								end if
+							end if
+						end if 
+						goto allkey
+					end if 
+
+
+
+'----------------------------------------------------------------------------------
+
+'----------------------------------------------------------------------------------
+
+'----------------------------------------------------------------------------------
+
+'----------------------------------------------------------------------------------
 
 '----------------------------------------------------------------------------------
 
