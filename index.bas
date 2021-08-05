@@ -169,7 +169,7 @@ main
 						if par(3)=length then
 
 
-									addtail("	ldr r1,XL"+(trim(str(line11(bbb)+9000))))
+									addtail("	ldr r1,XL"+(trim(str(iii+9000))))
 									addtail("	mov r0,#3")
 									addtail("	ldr r4,var_sys_call")
 									addtail("	blx	r4")
@@ -457,7 +457,81 @@ main
 
 
 '----------------------------------------------------------------------------------
+'key label,label id
+					if par1=keywords(10) then 
+						errorssi=10
+
+						if par(10)=length then
+							tc=ucase(trim(separete(1)))
+									
+							bbb=findlabel(tc)
+							if bbb=-1 and tc<>"" and (asc(tc)>(asc("A")-1)) and (asc(tc)<(asc("Z")+1)) then 
+								addlabel(tc,1,iii,1)
+								addtail("LL"+trim(str(iii+8000))+":")
+							errorssi=-1
+							errorss=0
+
+							else
+
+								if bbb>-1 and tc<>"" and (asc(tc)>(asc("A")-1)) and (asc(tc)<(asc("Z")+1)) and labelstate(bbb)=0 then 
+									
+									labeldefined(bbb)=1
+									addtail("LL"+trim(str(labeladdress(bbb)+8000))+":")
+									labelstate(bbb)=1
+							errorssi=-1
+							errorss=0
+
+								else						
+									iii=1+iii
+									goto errorhandler
+								end if
+							end if 
+						end if
+						goto allkey
+					end if
+
+
+
+
+
 '----------------------------------------------------------------------------------
+'key goto,label id
+					if par1=keywords(11) then 
+						errorssi=11
+
+						if par(11)=length then
+							tc=ucase(trim(separete(1)))
+							bbb=findlabel(tc)
+							if bbb=-1 and tc<>"" and (asc(tc)>(asc("A")-1)) and (asc(tc)<(asc("Z")+1)) then 
+								addlabel(tc,0,iii,0)
+								addtail ("	mov 	r1,#1")
+								addtail ("	mov 	r0,#0")
+								addtail ("	cmp	r1,r0")
+								addtail("	bne	LL"+trim(str(iii+8000)))
+								errorssi=-1
+								errorss=0
+							errorssi=-1
+							errorss=0
+
+							else
+
+								if bbb>-1 and tc<>"" and (asc(tc)>(asc("A")-1)) and (asc(tc)<(asc("Z")+1)) then 
+									addtail("	jmp LL"+trim(str(labeladdress(bbb)+8000)))
+									errorssi=-1
+									errorss=0
+							errorssi=-1
+							errorss=0
+
+
+								else						
+									iii=1+iii
+									goto errorhandler
+								end if
+							end if 
+						end if
+						goto allkey
+					end if
+
 
 
 
@@ -783,16 +857,13 @@ sub startcode()
 			tt1=""
 			addhead ("	.align	2")
 			addhead ("main:")
+			addhead ("	b	mains")
+			addhead (!"	var_sys_messages: .asciz \"ARM build in index developer tools....... \\0\"")
+			addhead ("mains:")
 			addhead ("	push	{fp, lr}")
 			addhead ("	add	fp, sp, #4")
 			addhead ("	sub	sp, sp, #16")
 			addhead ("	str	r3,var_sys_call")
-			addhead ("	mov 	r1,#1")
-			addhead ("	mov 	r0,#0")
-			addhead ("	cmp	r1,r0")
-			addhead ("	bne	mains")
-			addcode (!"	var_sys_messages: .asciz \"ARM build in index developer tools.... \\0\"")
-			addhead ("mains:")
 			addhead ("		@head")
 			addhead ("")
 			addhead ("@body start")
