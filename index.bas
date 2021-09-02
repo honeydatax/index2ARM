@@ -433,9 +433,10 @@ main
 						if par(9)=length then
 
 
-										addtail("	mov r0,#19")
-										addtail("	ldr r4,var_sys_call")
-										addtail("	blx	r4")
+								addtail ("	mov 	r1,#1")
+								addtail ("	mov 	r0,#0")
+								addtail ("	cmp	r1,r0")
+								addtail("	bne	exit")
 
 
 						else
@@ -516,7 +517,10 @@ main
 							else
 
 								if bbb>-1 and tc<>"" and (asc(tc)>(asc("A")-1)) and (asc(tc)<(asc("Z")+1)) then 
-									addtail("	jmp LL"+trim(str(labeladdress(bbb)+8000)))
+								addtail ("	mov 	r1,#1")
+								addtail ("	mov 	r0,#0")
+								addtail ("	cmp	r1,r0")
+									addtail("	bne LL"+trim(str(labeladdress(bbb)+8000)))
 									errorssi=-1
 									errorss=0
 							errorssi=-1
@@ -534,6 +538,56 @@ main
 
 
 
+'----------------------------------------------------------------------------------
+'key return
+					if par1=keywords(12) then
+						errorssi=12
+						if par(12)=length then
+						addtail("	sub	sp, fp, #4")
+							addtail("	pop	{fp, pc}")
+						else
+							iii=1+iii
+							goto errorhandler
+
+						end if 
+						errorssi=-1
+						errorss=0
+
+						goto allkey
+					end if 
+
+'----------------------------------------------------------------------------------
+'key gosub,label id
+					if par1=keywords(18) then 
+						errorssi=18
+
+						if par(18)=length then
+							tc=ucase(trim(separete(1)))
+							bbb=findlabel(tc)
+							if bbb=-1 and tc<>"" and (asc(tc)>(asc("A")-1)) and (asc(tc)<(asc("Z")+1)) then 
+								
+								addlabel(tc,0,iii,0)
+								addtail("	bl LL"+trim(str(iii+8000)))
+
+								errorssi=-1
+								errorss=0
+							else
+
+								if bbb>-1 and tc<>"" and (asc(tc)>(asc("A")-1)) and (asc(tc)<(asc("Z")+1)) then 
+								
+										addtail("	bl LL"+trim(str(iii+8000)))
+
+									errorssi=-1
+									errorss=0
+								else						
+									iii=1+iii
+									goto errorhandler
+								end if
+							end if 
+
+						end if
+						goto allkey
+					end if
 
 '----------------------------------------------------------------------------------
 
@@ -546,8 +600,24 @@ main
 '----------------------------------------------------------------------------------
 
 '----------------------------------------------------------------------------------
+'key pusharm
+					if par1=keywords(83) then
+						errorssi=83
+						if par(12)=length then
+									addtail("	push	{fp, lr}")
+									addtail("	add	fp, sp, #4")
+									addtail("	sub	sp, sp, #8")
+						else
+							iii=1+iii
+							goto errorhandler
 
-'----------------------------------------------------------------------------------
+						end if 
+						errorssi=-1
+						errorss=0
+
+						goto allkey
+					end if 
+
 
 '----------------------------------------------------------------------------------
 
@@ -833,8 +903,9 @@ sub startcode()
 		addkey ("box",6)
 		addkey ("file.chain",2)
 		addkey ("file.exec",2)
-		addkey ("timer.cicle",3)
-		addkey ("ver",1)
+		addkey ("timer.cicle",3)'81
+		addkey ("ver",1)'82
+		addkey ("pusharm",1)'83
 		color 15,5
 
 'code tail

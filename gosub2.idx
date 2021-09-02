@@ -1,0 +1,8 @@
+echo,beford
+gosub,d1
+echo,exit
+exit
+label,d1
+pusharm
+echo,address
+return
