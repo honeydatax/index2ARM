@@ -590,8 +590,150 @@ main
 					end if
 
 '----------------------------------------------------------------------------------
+'key like,var1,var2,goto label id
+					if par1=keywords(13) then
+						errorssi=13
+						if par(13)=length then
+
+							tc=ucase(trim(separete(1)))
+							tc1=ucase(trim(separete(2)))
+							tc2=ucase(trim(separete(3)))
+
+							bbb=findvar(tc)
+							bbb1=findvar(tc1)
+							bbb2=findlabel(tc2)
+							if bbb<>-1 and tc<>"" and bbb1<>-1 and tc1<>"" and tc2<>"" then
+
+
+								if varstype(bbb)=6 and varstype(bbb1)=6 then	 
+
+
+
+									if bbb2=-1 and tc2<>"" and (asc(tc2)>(asc("A")-1)) and (asc(tc2)<(asc("Z")+1)) then 
+										addlabel(tc2,0,iii,0)
+
+										addtail("	ldr r1,L"+(trim(str(line11(bbb)+9000))))
+										addtail("	ldr r2,L"+(trim(str(line11(bbb1)+9000))))
+										addtail("	mov r0,#25")
+										addtail("	ldr r4,var_sys_call")
+										addtail("	blx	r4")
+										addtail ("	mov 	r1,#0")
+										addtail ("	cmp	r1,r0")
+										addtail("	bne LL"+trim(str(iii+8000)))
+										errorssi=-1
+										errorss=0
+
+									else
+	
+										if bbb2>-1 and tc2<>"" and (asc(tc2)>(asc("A")-1)) and (asc(tc2)<(asc("Z")+1)) then 
+											addtail("	ldr r1,L"+(trim(str(line11(bbb)+9000))))
+											addtail("	mov r2,L"+(trim(str(line11(bbb1)+9000))))
+											addtail("	mov r0,#25")
+											addtail("	ldr r4,var_sys_call")
+											addtail("	blx	r4")
+											addtail ("	mov 	r1,#0")
+											addtail ("	cmp	r1,r0")
+											addtail("	bne LL"+trim(str(labeladdress(bbb2)+8000)))
+											errorssi=-1
+											errorss=0
+
+
+										else
+
+											iii=1+iii
+											goto errorhandler
+										end if
+										
+
+									end if
+								else
+
+									iii=1+iii
+									goto errorhandler
+								end if
+							else
+
+								iii=1+iii
+								goto errorhandler
+
+							end if
+													end if 
+						goto allkey
+					end if 
+
 
 '----------------------------------------------------------------------------------
+'key diferent,var1,var2,goto label id
+					if par1=keywords(14) then
+						errorssi=14
+						if par(14)=length then
+
+							tc=ucase(trim(separete(1)))
+							tc1=ucase(trim(separete(2)))
+							tc2=ucase(trim(separete(3)))
+
+							bbb=findvar(tc)
+							bbb1=findvar(tc1)
+							bbb2=findlabel(tc2)
+							if bbb<>-1 and tc<>"" and bbb1<>-1 and tc1<>"" and tc2<>"" then
+
+
+								if varstype(bbb)=6 and varstype(bbb1)=6 then	 
+
+
+
+									if bbb2=-1 and tc2<>"" and (asc(tc2)>(asc("A")-1)) and (asc(tc2)<(asc("Z")+1)) then 
+										addlabel(tc2,0,iii,0)
+
+										addtail("	ldr r1,L"+(trim(str(line11(bbb)+9000))))
+										addtail("	ldr r2,L"+(trim(str(line11(bbb1)+9000))))
+										addtail("	mov r0,#26")
+										addtail("	ldr r4,var_sys_call")
+										addtail("	blx	r4")
+										addtail ("	mov 	r1,#0")
+										addtail ("	cmp	r1,r0")
+										addtail("	bne LL"+trim(str(iii+8000)))
+										errorssi=-1
+										errorss=0
+
+									else
+	
+										if bbb2>-1 and tc2<>"" and (asc(tc2)>(asc("A")-1)) and (asc(tc2)<(asc("Z")+1)) then 
+											addtail("	ldr r1,L"+(trim(str(line11(bbb)+9000))))
+											addtail("	ldr r2,L"+(trim(str(line11(bbb1)+9000))))
+											addtail("	mov r0,#25")
+											addtail("	ldr r4,var_sys_call")
+											addtail("	blx	r4")
+											addtail ("	mov 	r1,#0")
+											addtail ("	cmp	r1,r0")
+											addtail("	bne LL"+trim(str(labeladdress(bbb2)+8000))) 
+											errorssi=-1
+											errorss=0
+
+
+										else
+
+											iii=1+iii
+											goto errorhandler
+										end if
+										
+
+									end if
+								else
+
+									iii=1+iii
+									goto errorhandler
+								end if
+							else
+
+								iii=1+iii
+								goto errorhandler
+
+							end if
+													end if 
+						goto allkey
+					end if 
+
 
 '----------------------------------------------------------------------------------
 
