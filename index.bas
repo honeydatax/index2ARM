@@ -575,7 +575,7 @@ main
 
 								if bbb>-1 and tc<>"" and (asc(tc)>(asc("A")-1)) and (asc(tc)<(asc("Z")+1)) then 
 								
-										addtail("	bl LL"+trim(str(iii+8000)))
+										addtail("	bl LL"+trim(str(labeladdress(bbb)+8000)))
 
 									errorssi=-1
 									errorss=0
@@ -883,6 +883,25 @@ main
 
 
 '----------------------------------------------------------------------------------
+'key rem,ignored text
+					if par1=keywords(17) then
+						errorssi=17
+						if par(17)<=length then
+
+									addtail("@ "+separete(1))
+									addbody("@ "+separete(1))
+
+						else
+							iii=1+iii
+							goto errorhandler
+
+						end if 
+						errorssi=-1
+						errorss=0
+
+						goto allkey
+					end if 
+
 '----------------------------------------------------------------------------------
 '----------------------------------------------------------------------------------
 '----------------------------------------------------------------------------------

@@ -1,0 +1,27 @@
+                rem,define vars
+        integer,var1,1
+        integer,var2,5
+        gosub,cmpthan
+                rem,change vars
+        add,var1,var2,var2
+        gosub,cmpthan
+        exit
+label,lessthan
+        pusharm
+        echo,var1 < var2
+        return
+label,gratherthan
+		pusharm
+        echo,var1 > var2
+        return
+                rem,compere vars
+label,cmpthan
+		pusharm
+        less,var1,var2,l0
+        gosub,lessthan
+        goto,l8
+label,l0
+        gosub,gratherthan
+label,l8
+        return
+
